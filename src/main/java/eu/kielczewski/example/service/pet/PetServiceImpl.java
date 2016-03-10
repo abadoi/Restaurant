@@ -1,9 +1,12 @@
 package eu.kielczewski.example.service.pet;
 
+import eu.kielczewski.example.domain.CurrentUser;
 import eu.kielczewski.example.domain.Pet;
+import eu.kielczewski.example.domain.PetCreateForm;
 import eu.kielczewski.example.domain.User;
 import eu.kielczewski.example.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +41,29 @@ public class PetServiceImpl implements PetService {
     public List<Pet> findAllPetsOf(User user) {
         return petRepository.findByOwner(user);
 
+    }
+    public User getOwner(Pet pet)
+    {
+        return pet.getOwner();
+    }
+
+    @Override
+    public Pet createPet(String name, String type, User owner) {
+        Pet pet = new Pet();
+        pet.setName(name);
+        pet.setType(type);
+        pet.setOwner(owner);
+        return petRepository.save(pet);
+    }
+
+    @Override
+    public Pet createPet(PetCreateForm form, Authentication authentication) {
+        Pet pet = new Pet();
+        pet.setName(form.getName());
+        pet.setType(form.getType());
+        User user = ((CurrentUser)authentication.getPrincipal()).getUser();
+        pet.setOwner(user);
+        return petRepository.save(pet);
     }
 
 

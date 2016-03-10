@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface PetRepository extends CrudRepository<Pet, Long> {
     List<Pet> findByOwner (User user);
+    Pet findOneByName (String name);
 }
