@@ -17,5 +17,8 @@
 <p>E-mail: ${user.email}</p>
 
 <p>Role: ${user.role}</p>
+<lu>
+<li><a href="/mypets">View my pets</a></li>
+</lu>
 </body>
 </html>
